@@ -1,0 +1,11 @@
+* {
+  box-sizing: border-box;
+}
+
+$primary-bg-clr: red;
+$primary-text-clr: white;
+
+body {
+  color: $primary-text-clr;
+  background-color: $primary-bg-clr;
+}
