@@ -1,9 +1,9 @@
-const plant = document.querySelector("#plant1");
+const plant = document.querySelector('#plant1');
 dragElement(plant);
 
-document.querySelector("button").addEventListener("click", () => {
-  plant.style.top = "40px";
-  plant.style.left = "0px";
+document.querySelector('button').addEventListener('click', () => {
+  plant.style.top = '40px';
+  plant.style.left = '0px';
 });
 
 function dragElement(terrariumElement) {
@@ -32,8 +32,8 @@ function dragElement(terrariumElement) {
     //reset pos4 to current location of Ymouse
     pos4 = e.clientY;
 
-    terrariumElement.style.top = terrariumElement.offsetTop - pos2 + "px";
-    terrariumElement.style.left = terrariumElement.offsetLeft - pos1 + "px";
+    terrariumElement.style.top = terrariumElement.offsetTop - pos2 + 'px';
+    terrariumElement.style.left = terrariumElement.offsetLeft - pos1 + 'px';
   }
 
   function stopElementDrag() {

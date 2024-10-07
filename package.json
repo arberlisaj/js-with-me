@@ -5,7 +5,8 @@
   "scripts": {
     "build": "webpack build",
     "start": "webpack serve",
-    "dev": "webpack serve"
+    "dev": "webpack serve",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\""
   },
   "keywords": [],
   "author": "",

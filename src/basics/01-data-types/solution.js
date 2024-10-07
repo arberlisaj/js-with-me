@@ -11,10 +11,10 @@ let balance = 199;
 let isDiscounted = true;
 
 // String - Represents a sequence of characters used for storing and manipulating text.
-let productName = "Coat";
+let productName = 'Coat';
 
 // Symbol -  Represents a unique and immutable identifier. Useful for creating unique property keys in objects.
-const productId = Symbol("productId");
+const productId = Symbol('productId');
 
 // BigInt - Represents integers with arbitrary precision, allowing for the representation of numbers larger than Number.MAX_SAFE_INTEGER.
 const bigNumber = 1234567890123456789012345678901234567890n;

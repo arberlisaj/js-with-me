@@ -1,11 +1,11 @@
 async function displayUsers(users) {
-  const usersList = document.getElementById("usersList");
+  const usersList = document.getElementById('usersList');
 
   if (usersList) {
-    usersList.innerHTML = "";
+    usersList.innerHTML = '';
 
     users.forEach((user) => {
-      const li = document.createElement("li");
+      const li = document.createElement('li');
       li.textContent = user.name;
       usersList.appendChild(li);
     });
