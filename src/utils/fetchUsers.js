@@ -1,24 +1,12 @@
-import axios from 'axios';
-
-async function fetchUsers() {
+async function fetchUsers(url) {
   try {
-    const response = await axios.get(
-      'https://jsonplaceholder.typicode.com/users'
-    );
-    return response.data;
-  } catch (error) {
-    if (error.response) {
-      console.error(
-        'Server responded with a status code outside the range of 2xx:',
-        error.response.status
-      );
-      console.error('Response data:', error.response.data);
-    } else if (error.request) {
-      console.error('No response received:', error.request);
-    } else {
-      console.error('Error in setting up the request:', error.message);
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
-    return [];
+    return response.json();
+  } catch (error) {
+    console.error('Error fetching data:', error);
   }
 }
 

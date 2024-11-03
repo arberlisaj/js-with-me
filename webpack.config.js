@@ -1,4 +1,5 @@
 const path = require('path');
+const Dotenv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
@@ -59,5 +60,7 @@ module.exports = {
       inject: true,
       favicons: {},
     }),
+
+    new Dotenv(),
   ],
 };
