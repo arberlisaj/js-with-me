@@ -61,6 +61,8 @@ module.exports = {
       favicons: {},
     }),
 
-    new Dotenv(),
+    new Dotenv({
+      path: path.resolve(__dirname, '../.env'),
+    }),
   ],
 };
