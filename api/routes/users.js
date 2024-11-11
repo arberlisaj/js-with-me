@@ -1,35 +1,35 @@
-const express = require("express");
-const Joi = require("joi");
+const express = require('express');
+const Joi = require('joi');
 const router = express.Router();
 
 // Users array.
 const users = [
-  { id: 1, name: "Arber Lisaj" },
-  { id: 2, name: "Jane Doe" },
-  { id: 3, name: "Doe Jane" },
-  { id: 4, name: "Spongebob" },
-  { id: 5, name: "Donald Duck" },
-  { id: 6, name: "Bugs Bunny" },
+  { id: 1, name: 'Arber Lisaj' },
+  { id: 2, name: 'Jane Doe' },
+  { id: 3, name: 'Doe Jane' },
+  { id: 4, name: 'Spongebob' },
+  { id: 5, name: 'Donald Duck' },
+  { id: 6, name: 'Bugs Bunny' },
 ];
 
 // GET => Return all users in response to GET requests at root.
-router.get("/", (req, res) => {
+router.get('/', (req, res) => {
   res.send(users);
 });
 
 // GET/:id => Retrieve user by ID, return user or 404.
-router.get("/:id", (req, res) => {
+router.get('/:id', (req, res) => {
   const user = users.find((user) => user.id === parseInt(req.params.id));
   if (!user)
-    return res.status(404).send("The user with the given ID was not found.");
+    return res.status(404).send('The user with the given ID was not found.');
   res.send(user);
 });
 
 // DELETE/:id => Delete user by ID, return deleted user or 404.
-router.delete("/:id", (req, res) => {
+router.delete('/:id', (req, res) => {
   const user = users.find((user) => user.id === parseInt(req.params.id));
   if (!user)
-    return res.status(404).send("The user with the given ID was not found.");
+    return res.status(404).send('The user with the given ID was not found.');
 
   const index = users.indexOf(user);
   users.splice(index, 1);
@@ -38,7 +38,7 @@ router.delete("/:id", (req, res) => {
 });
 
 // POST => Create a new user.
-router.post("/", (req, res) => {
+router.post('/', (req, res) => {
   const { error } = validateUser(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -52,10 +52,10 @@ router.post("/", (req, res) => {
 });
 
 // PUT/:id => Update user by ID, validate input, return updated user or 400.
-router.put("/:id", (req, res) => {
+router.put('/:id', (req, res) => {
   const user = users.find((c) => c.id === parseInt(req.params.id));
   if (!user)
-    return res.status(404).send("The user with the given ID was not found.");
+    return res.status(404).send('The user with the given ID was not found.');
 
   const { error } = validateUser(req.body);
   if (error) return res.status(400).send(error.details[0].message);
