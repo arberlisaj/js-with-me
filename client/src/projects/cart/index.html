@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="./app.js" defer></script>
+    <title>cart</title>
+  </head>
+  <body>
+    <form id="item-form">
+      <label for="item-input">Item</label>
+      <input type="text" id="item-input" name="item" placeholder="Enter Item" />
+      <button type="submit">Add Item</button>
+    </form>
+
+    <div>
+      <input type="text" id="filter" placeholder="Filter Items" />
+      <ul id="item-list"></ul>
+      <button id="clear">Clear All</button>
+    </div>
+  </body>
+</html>
