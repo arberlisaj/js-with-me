@@ -1,168 +1,60 @@
-const itemForm = document.getElementById('item-form');
-const itemInput = document.getElementById('item-input');
-const itemList = document.getElementById('item-list');
-const clearBtn = document.getElementById('clear');
-const itemFilter = document.getElementById('filter');
-const formBtn = itemForm.querySelector('button');
-let isEditMode = false;
+const filterInput = document.getElementById('filterInput');
+const addInput = document.getElementById('addInput');
+const itemList = document.getElementById('itemList');
 
-function displayItems() {
-  const itemsFromStorage = getItemsFromStorage();
-  itemsFromStorage.forEach((item) => addItemToDOM(item));
-  checkUI();
-}
+const getItems = () => JSON.parse(localStorage.getItem('items')) || [];
 
-function onAddItemSubmit(e) {
-  e.preventDefault();
-  const newItem = itemInput.value.trim();
+const setItems = (items) =>
+  localStorage.setItem('items', JSON.stringify(items));
 
-  if (newItem === '') {
-    alert('Please add an item');
-    return;
+const renderItems = (filter = '') => {
+  const items = getItems();
+  itemList.innerHTML = '';
+  items
+    .filter((item) => item.toLowerCase().includes(filter.toLowerCase()))
+    .forEach((item, index) => {
+      const li = document.createElement('li');
+
+      const span = document.createElement('span');
+      span.textContent = item;
+      span.className = 'editable';
+      span.contentEditable = false;
+      span.addEventListener('click', () => {
+        span.contentEditable = true;
+        span.focus();
+      });
+      span.addEventListener('blur', () => {
+        span.contentEditable = false;
+        items[index] = span.textContent.trim();
+        setItems(items);
+        renderItems(filterInput.value);
+      });
+
+      const deleteButton = document.createElement('button');
+      deleteButton.textContent = 'Delete';
+      deleteButton.className = 'delete';
+      deleteButton.addEventListener('click', () => {
+        items.splice(index, 1);
+        setItems(items);
+        renderItems(filterInput.value);
+      });
+
+      li.appendChild(span);
+      li.appendChild(deleteButton);
+      itemList.appendChild(li);
+    });
+};
+
+addInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter' && addInput.value.trim()) {
+    const items = getItems();
+    items.push(addInput.value.trim());
+    setItems(items);
+    addInput.value = '';
+    renderItems(filterInput.value);
   }
+});
 
-  if (isEditMode) {
-    const itemToEdit = itemList.querySelector('.edit-mode');
+filterInput.addEventListener('input', () => renderItems(filterInput.value));
 
-    removeItemFromStorage(itemToEdit.textContent);
-    itemToEdit.classList.remove('edit-mode');
-    itemToEdit.remove();
-    isEditMode = false;
-  } else {
-    if (checkIfItemExists(newItem)) {
-      alert(`The item "${newItem}" already exists!`);
-      return;
-    }
-  }
-
-  addItemToDOM(newItem);
-  addItemToStorage(newItem);
-  checkUI();
-
-  itemInput.value = '';
-}
-
-function addItemToDOM(item) {
-  const li = document.createElement('li');
-  li.appendChild(document.createTextNode(item));
-
-  const button = createButton('remove-item btn-link text-red');
-  li.appendChild(button);
-
-  itemList.appendChild(li);
-}
-
-function createButton(classes) {
-  const button = document.createElement('button');
-  button.className = classes;
-  const txt = document.createTextNode('Remove');
-  button.appendChild(txt);
-  return button;
-}
-
-function addItemToStorage(item) {
-  const itemsFromStorage = getItemsFromStorage();
-  itemsFromStorage.push(item);
-  localStorage.setItem('items', JSON.stringify(itemsFromStorage));
-}
-
-function getItemsFromStorage() {
-  let itemsFromStorage;
-
-  if (localStorage.getItem('items') === null) {
-    itemsFromStorage = [];
-  } else {
-    itemsFromStorage = JSON.parse(localStorage.getItem('items'));
-  }
-  return itemsFromStorage;
-}
-
-function onClickItem(e) {
-  if (e.target.parentElement.classList.contains('remove-item')) {
-    removeItem(e.target.parentElement.parentElement);
-  } else if (e.target.closest('li')) {
-    setItemToEdit(e.target);
-  }
-}
-
-function checkIfItemExists(item) {
-  const itemsFromStorage = getItemsFromStorage();
-  return itemsFromStorage.includes(item);
-}
-
-function setItemToEdit(item) {
-  isEditMode = true;
-  itemList
-    .querySelectorAll('li')
-    .forEach((i) => i.classList.remove('edit-mode'));
-
-  item.classList.add('edit-mode');
-  formBtn.innerHTML = 'Update Item';
-  itemInput.value = item.textContent;
-}
-
-function removeItem(item) {
-  if (
-    confirm(`Are you sure you want to remove the item "${item.textContent}"?`)
-  ) {
-    item.remove();
-    removeItemFromStorage(item.textContent);
-    checkUI();
-  }
-}
-
-function removeItemFromStorage(item) {
-  let itemsFromStorage = getItemsFromStorage();
-  itemsFromStorage = itemsFromStorage.filter((i) => i !== item);
-  localStorage.setItem('items', JSON.stringify(itemsFromStorage));
-}
-
-function clearItems() {
-  while (itemList.firstChild) {
-    itemList.removeChild(itemList.firstChild);
-  }
-  localStorage.removeItem('items');
-  checkUI();
-}
-
-function filterItems(e) {
-  const items = itemList.querySelectorAll('li');
-  const text = e.target.value.toLowerCase();
-
-  items.forEach((item) => {
-    const itemName = item.firstChild.textContent.toLowerCase();
-
-    if (itemName.indexOf(text) != -1) {
-      item.style.display = 'flex';
-    } else {
-      item.style.display = 'none';
-    }
-  });
-}
-
-function checkUI() {
-  itemInput.value = '';
-  const items = itemList.querySelectorAll('li');
-
-  if (items.length === 0) {
-    clearBtn.style.display = 'none';
-    itemFilter.style.display = 'none';
-  } else {
-    clearBtn.style.display = 'block';
-    itemFilter.style.display = 'block';
-  }
-
-  formBtn.innerHTML = 'Add item';
-  isEditMode = false;
-}
-
-function init() {
-  itemForm.addEventListener('submit', onAddItemSubmit);
-  itemList.addEventListener('click', onClickItem);
-  clearBtn.addEventListener('click', clearItems);
-  itemFilter.addEventListener('input', filterItems);
-  document.addEventListener('DOMContentLoaded', displayItems);
-  checkUI();
-}
-
-init();
+renderItems();

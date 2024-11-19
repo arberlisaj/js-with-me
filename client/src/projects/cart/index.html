@@ -1,22 +1,51 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="./app.js" defer></script>
-    <title>cart</title>
-  </head>
-  <body>
-    <form id="item-form">
-      <label for="item-input">Item</label>
-      <input type="text" id="item-input" name="item" placeholder="Enter Item" />
-      <button type="submit">Add Item</button>
-    </form>
 
-    <div>
-      <input type="text" id="filter" placeholder="Filter Items" />
-      <ul id="item-list"></ul>
-      <button id="clear">Clear All</button>
-    </div>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="./app.js" defer></script>
+  <title>cart</title>
+  <style>
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 10px;
+    }
+
+    input {
+      display: block;
+      width: 100%;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 5px 0;
+    }
+
+    .editable {
+      flex-grow: 1;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <label for="addInput">Title</label>
+    <input type="text" id="addInput" placeholder="Add a new item..." />
+    <label for="filterInput">Filter</label>
+    <input type="text" id="filterInput" placeholder="Filter items..." />
+    <ul id="itemList"></ul>
+  </div>
+</body>
+
 </html>
